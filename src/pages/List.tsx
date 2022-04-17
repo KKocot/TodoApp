@@ -6,14 +6,14 @@ export const List = () => {
   const [newItem, setNewItem] = useState("");
   const Todo = items.map((item) => (
     <li
-      className="flex justify-center items-center p-2 text-xl gap-10 "
+      className=" rounded-md flex bg-brown text-white items-center p-2 text-xl w-52 gap-10 "
       key={item.id}
     >
       <Link to={`/task/${item.id}`}>
         <span>{item.value}</span>
       </Link>
       <button
-        className=" bg-red-600 text-white p-2 rounded"
+        className=" bg-light-brown color-brown p-2 rounded font-semibold"
         onClick={() => deleteItem(item.id)}
       >
         Delete
@@ -22,22 +22,25 @@ export const List = () => {
   ));
 
   return (
-    <div className="flex flex-col gap-5 p-10">
-      <div className="flex gap-10 justify-center">
+    <div className="flex flex-col justify-center align-center gap-24 w-full mt-36 m-14">
+      <h1 className="flex self-center text-3xl font-black color-brown">
+        Todo App
+      </h1>
+      <div className="flex flex-wrap gap-5 justify-center">
         <input
-          className="text-xl  p-2"
+          className="text-xl w-80 bg-brown p-2 rounded text-white"
           onChange={(e) => setNewItem(e.target.value)}
           value={newItem}
           type="text"
         />
         <button
-          className="text-xl bg-lime-700 text-white p-2 rounded"
+          className="text-xl bg-brown text-white p-2 rounded"
           onClick={() => addItem(newItem, setNewItem)}
         >
-          Add Task
+          Add
         </button>
       </div>
-      <ul>{Todo}</ul>
+      <ul className="flex justify-center flex-wrap gap-16">{Todo}</ul>
     </div>
   );
 };

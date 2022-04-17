@@ -3,10 +3,19 @@
 @tailwind utilities;
 
 html{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    background-color: rgb(243 244 246);
+    background-color: #7E716D;
 }
 
+
+.bg-light-brown{
+    background-color: #7E716D;
+}
+.bg-brown{
+    background-color: #414144;
+}
+.color-light-brown{
+    color: #7E716D;
+}
+.color-brown{
+    color: #414144;
+}

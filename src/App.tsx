@@ -5,7 +5,7 @@ import { TodoProvider } from "./components/TodoContext";
 
 function App() {
   return (
-    <div className="w-full h-full bg-gray-100 flex items-center justify-center ">
+    <div className=" bg-light-brown flex justify-center ">
       <TodoProvider>
         <Routes>
           <Route path="/" element={<List />} />
