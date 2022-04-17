@@ -1,8 +1,8 @@
 import { useState, useContext, createContext } from "react";
 const todoList = [
-  { value: "Wash a car", details: "task123", id: 1 },
-  { value: "Go out with dog", details: "task23", id: 2 },
-  { value: "Make dinner", details: "task3", id: 3 },
+  { value: "Wash a car", details: "ASAP", id: 1 },
+  { value: "Go out with dog", details: "Morning walk", id: 2 },
+  { value: "Make dinner", details: "Maybe spagetti", id: 3 },
 ];
 
 export const TodoContext = createContext(undefined);
@@ -19,7 +19,7 @@ export const TodoProvider = ({ children }) => {
     const item = {
       id: Math.floor(Math.random() * 1000),
       value: newItem,
-      details: undefined,
+      details: "",
     };
     setItems((oldList) => [...oldList, item]);
     setNewItem("");
@@ -29,7 +29,17 @@ export const TodoProvider = ({ children }) => {
     const newArray = items.filter((item) => item.id !== id);
     setItems(newArray);
   };
-  const appData = { items, addItem, deleteItem };
+  const editDetails = (id: number, newDetails) => {
+    const array = items.map((item) => {
+      if (item.id !== id) return item;
+      return {
+        ...item,
+        details: newDetails,
+      };
+    });
+    setItems(array);
+  };
+  const appData = { items, addItem, deleteItem, editDetails };
   return (
     <TodoContext.Provider value={appData}>{children}</TodoContext.Provider>
   );
