@@ -4,6 +4,7 @@
 
 html{
     background-color: #7E716D;
+    font-family: 'Inter', sans-serif;
 }
 
 
@@ -19,3 +20,11 @@ html{
 .color-brown{
     color: #414144;
 }
+.color-white{color: #fcfcfc;}
+.wrapword {
+    width: auto;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    white-space: pre-wrap
+  }
+  
