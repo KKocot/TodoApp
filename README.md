@@ -1,5 +1,6 @@
-Todo App as a first skills test.
-In this project I focused mostly on TypeScript and fast styling with Tailwind.
+· Site created with React and TailWind.</br>
+· In this project, I focused on React functionality.</br>
+· Application for creating and editing tasks.</br>
 
 Code on the live server
 https://todo-app-plum.vercel.app
