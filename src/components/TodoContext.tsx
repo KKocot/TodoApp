@@ -1,45 +1,72 @@
-import { useState, useContext, createContext } from "react";
-const todoList = [
-  { value: "Wash a car", details: "ASAP", id: 1 },
-  { value: "Go out with dog", details: "Morning walk", id: 2 },
-  { value: "Make dinner", details: "Maybe spagetti", id: 3 },
+import { type } from "os";
+import { useContext, createContext, useReducer } from "react";
+import { generateId } from "../lib/idGenerator";
+
+interface Todo {
+  value: string;
+  details?: string;
+  id: number;
+}
+type State = {
+  tasks: Todo[];
+};
+type Actions =
+  | {
+      type: "addTask";
+      payload: Pick<Todo, "value" | "details">;
+    }
+  | { type: "removeTask"; payload: Pick<Todo, "id"> }
+  | { type: "editTask"; payload: Required<Pick<Todo, "id" | "details">> };
+const todoList: Todo[] = [
+  { value: "Wash a car", details: "ASAP", id: generateId() },
+  { value: "Go out with dog", details: "Morning walk", id: generateId() },
+  { value: "Make dinner", details: "Maybe spagetti", id: generateId() },
 ];
-
-export const TodoContext = createContext(undefined);
-
+const tasksReducer = (state: State, action: Actions) => {
+  switch (action.type) {
+    case "addTask": {
+      return {
+        ...state,
+        tasks: [
+          ...state.tasks,
+          {
+            ...action.payload,
+            id: generateId(),
+          },
+        ],
+      };
+    }
+    case "removeTask": {
+      return {
+        ...state,
+        tasks: state.tasks.filter((item) => item.id !== action.payload.id),
+      };
+    }
+    case "editTask": {
+      return {
+        ...state,
+        tasks: state.tasks.map((item: any) => {
+          if (item.id !== action.payload.id) return item;
+          return {
+            ...item,
+            details: action.payload.details,
+          };
+        }),
+      };
+    }
+    default: {
+      //@ts-ignore
+      throw Error("Unknown action" + action.type);
+    }
+  }
+};
+export const TodoContext = createContext<
+  { state: State; dispatch: React.Dispatch<Actions> } | undefined
+>(undefined);
 export const useTodoContext = () => useContext(TodoContext);
 export const TodoProvider = ({ children }) => {
-  const [items, setItems] = useState(todoList);
-
-  const addItem = (newItem, setNewItem) => {
-    if (!newItem) {
-      alert("Enter an item.");
-      return;
-    }
-    const item = {
-      id: Math.floor(Math.random() * 1000),
-      value: newItem,
-      details: "",
-    };
-    setItems((oldList) => [...oldList, item]);
-    setNewItem("");
-  };
-
-  const deleteItem = (id) => {
-    const newArray = items.filter((item) => item.id !== id);
-    setItems(newArray);
-  };
-  const editDetails = (id: number, newDetails) => {
-    const array = items.map((item) => {
-      if (item.id !== id) return item;
-      return {
-        ...item,
-        details: newDetails,
-      };
-    });
-    setItems(array);
-  };
-  const appData = { items, addItem, deleteItem, editDetails };
+  const [state, dispatch] = useReducer(tasksReducer, { tasks: todoList });
+  const appData = { state, dispatch };
   return (
     <TodoContext.Provider value={appData}>{children}</TodoContext.Provider>
   );
